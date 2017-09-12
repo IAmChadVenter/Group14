@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <h2>Index</h2>
@@ -90,4 +91,10 @@
 <br/>
 <p>
     @Html.ActionLink("View Applications", "AllApplications","Apply", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("View Deactivation Requests", "AllDeactivations", "Profile", null, new { @class = "btn btn-primary" })
+</p>
+<p>
+    @Html.ActionLink("View Reactivation Requests", "AllReactivations", "Profile", null, new { @class = "btn btn-primary" })
 </p>

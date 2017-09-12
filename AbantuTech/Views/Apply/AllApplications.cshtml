@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "AllApplications";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <h2>List of Applications</h2>
@@ -23,12 +24,12 @@
         <th>
             @Html.DisplayNameFor(model => model.PhoneNumber)
         </th>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.City)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Province)
-        </th>
+        </th>*@
         <th></th>
     </tr>
 
@@ -49,12 +50,12 @@
         <td>
             @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.City)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Province)
-        </td>
+        </td>*@
         <td>
             @Html.ActionLink("View Application", "Application", new { id=item.Member_ID }, new { @class = "btn btn-primary"})
         </td>

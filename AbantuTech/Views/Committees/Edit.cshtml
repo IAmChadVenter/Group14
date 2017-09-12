@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <h2>Edit</h2>
@@ -46,8 +47,4 @@
             @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-default" })
         </div>
     </div>
-}
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
 }

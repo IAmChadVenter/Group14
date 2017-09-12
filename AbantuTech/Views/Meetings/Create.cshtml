@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 <link href="~/Content/JQueryIU/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/JQueryIU/jquery-ui.theme.min.css" rel="stylesheet" />
@@ -25,15 +26,15 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     @Html.LabelFor(model => model.Date, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control", type = "date" } })
+                    <div class="col-md-5">
+                        @Html.EditorFor(model => model.Date, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Date, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Start_Time, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         @Html.EditorFor(model => model.Start_Time, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.Start_Time, "", new { @class = "text-danger" })
                     </div>
@@ -41,7 +42,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.End_Time, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         @Html.EditorFor(model => model.End_Time, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.End_Time, "", new { @class = "text-danger" })
                     </div>
@@ -49,7 +50,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Location, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter location" } })
                         @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                     </div>
@@ -57,7 +58,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Purpose, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         @Html.EditorFor(model => model.Purpose, new { htmlAttributes = new { @class = "form-control", @placeholder = "Enter purpose" } })
                         @Html.ValidationMessageFor(model => model.Purpose, "", new { @class = "text-danger" })
                     </div>
@@ -65,7 +66,7 @@
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.Committee_ID, "Committee_ID", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
+                    <div class="col-md-5">
                         @Html.DropDownList("Committee_ID", null, htmlAttributes: new { @class = "form-control" })
                         @Html.ValidationMessageFor(model => model.Committee_ID, "", new { @class = "text-danger" })
                     </div>
@@ -80,13 +81,8 @@
                     </div>
                 </div>
 }
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
-
-@*<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
 <script>
     $('#Date').datepicker();
 </script>
-}*@
+

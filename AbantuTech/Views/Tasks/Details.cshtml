@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <h2>Details</h2>
@@ -64,3 +65,8 @@
     @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
+
+<div>
+    @Html.ActionLink("Begin your task", "ViewTasks")
+</div>
+

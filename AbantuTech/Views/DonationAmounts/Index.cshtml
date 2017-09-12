@@ -1,0 +1,39 @@
+﻿@model IEnumerable<AbantuTech.Models.DonationAmount>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Donations</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Donations:
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+               R @Html.DisplayFor(modelItem => item.C).00
+            </td>
+        </tr>
+    }
+
+</table>
+@using (Html.BeginForm("SubmitAction", "DonationAmounts", FormMethod.Post))
+{
+    <p>
+        Email:<br />
+        <input type="text" value="Enter Email" name="TxtEmail" style="width:50%" />
+        <br />
+        <br />
+        <br />
+        <input type="submit" name="BtnConvert" value="Create Report and Email" class="mybutton" />
+        &nbsp;&nbsp;
+        <span style="color: red">@ViewData["Message"]</span>
+    </p>
+}

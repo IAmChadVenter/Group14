@@ -2,9 +2,16 @@
 
 @{
     ViewBag.Title = "Application";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
 <div class="container">
+    @{ 
+        if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success">@TempData["Message"]</div>
+        }
+    }
     <h2>Application by @Model.FirstName @Model.Surname</h2>
     <hr/>
 
@@ -37,7 +44,9 @@
             <li class="list-group-item"><b>Home Phone :</b> @item.homePhone</li>
         </ul>
     }
-    
+    <div>
+        @Html.ActionLink("Back to Home","Index","Home")
+    </div>
 </div>
 @if (Request.IsAuthenticated)
 {

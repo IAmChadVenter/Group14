@@ -1,0 +1,34 @@
+﻿@model IEnumerable<AbantuTech.Models.DonationAmount>
+<link href="~/Content/JQueryIU/chart.css" rel="stylesheet" type="text/css" />
+
+@{
+    Layout = "";
+}
+@{
+    ViewBag.Title = "Report";
+}
+<h2>REPORT</h2>
+
+<table class="table">
+    <tr>
+        <th align="left">Donations:</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                R @Html.DisplayFor(modelItem => item.C)
+            </td>
+        </tr>
+    }
+    <tr>
+        <th align="left">Total Donations: </th>
+    </tr>
+    <tr>
+        <td>
+            @{ double A = Model.Sum(v => Convert.ToInt16(v.C));}
+            R @A.00
+        </td>
+    </tr>
+</table>

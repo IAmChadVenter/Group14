@@ -1,0 +1,33 @@
+﻿@using Abantu_System.Models;
+@using AbantuTech.Models;
+@using Microsoft.AspNet.Identity;
+@using Microsoft.AspNet.Identity.EntityFramework;
+
+@{
+    ViewBag.Title = "RequestReact";
+}
+@{
+    ApplicationDbContext db = new ApplicationDbContext();
+    var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(db));
+    ApplicationUser currentUser = UserManager.FindById(User.Identity.GetUserId());
+    var e = db.Members.Where(m => m.Email == currentUser.Email).FirstOrDefault();
+}
+<h2 style="text-align:center;">Profile Reactivation</h2>
+<hr />
+@using (Html.BeginForm("RequestReact", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4 style="text-align:center;">Reactivate your profile page</h4>
+    <hr />
+    <p>Hi there Member, we assume you are wanting to recover access to your account.</p>
+    <p>We don't necessarily want you to provide a reason, so just go for it ! </p>
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+
+            <p>Click here</p>      <input type="submit" class="btn btn-default" value="Submit Request" />
+
+        </div>
+    </div>
+}
+

@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Abantu_System.Models.Event>
-
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
 }
 
-<h2>Index</h2>
 
+<h2>Index</h2>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
@@ -15,43 +15,82 @@
             @Html.DisplayNameFor(model => model.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            @Html.DisplayNameFor(model => model.text)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Venue)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Start_Time)
+            @Html.DisplayNameFor(model => model.start_date)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Finish_Time)
+            @Html.DisplayNameFor(model => model.end_date)
         </th>
+
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Venue)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Start_Time)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Finish_Time)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Event_ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Event_ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Event_ID })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Venue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.start_date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.end_date)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Event_ID }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Event_ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Event_ID })
+            </td>
+            @if (!User.IsInRole("Admin"))
+            {
+                <td>
+                    <div class="btn btn-success attend-event" data-href="/events/AttendEvent/@item.Event_ID">Attend Event</div>
+                    @*@Html.ActionLink("Attend Event", "AttendEvent", "Event", new { id = item.Event_ID})*@
+                </td>
+                <td>
+                    @Html.ActionLink("View", "EventAttendance", new { id = item.Event_ID }, new { @class = "btn btn-success" })
+
+                </td>
+            }
+        </tr>
+    }
 
 </table>
+<script>
+    $('.attend-event').on('click', function () {
+        var self = $(this),
+            url = self.attr('data-href');
+        $.ajax({
+            method: 'POST',
+            url: url,
+            success: function (res) {
+                if (typeof res.message === "undefined") {
+                    if (res.success) {
+                        self.text("Added");
+                    } else {
+                        self.text("Unable to Add");
+                    }
+                } else {
+                    self.text("Already Attending");
+                }
+            },
+            error: function (err) {
+                self.removeClass("alert-success");
+                self.addClass("alert-danger");
+                self.text("Failed");
+            }
+        });
+    });
+</script>

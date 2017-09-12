@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "InternMenu";
+    Layout = "~/Views/Shared/_Layout2.cshtml";
+}
+
+<h2>Intern Menu</h2>
+<ul class="table">
+
+<li class="h2">
+      @Html.ActionLink("Member", "Index", "Members")
+</li>
+<li class="h2">
+    @Html.ActionLink("Programme", "Index", "Programmes")
+</li>
+<li class="h2">
+    @Html.ActionLink("Meeting", "Index", "Meetings")
+</li>
+<li class="h2">
+    @Html.ActionLink("Event", "Index", "Events")
+</li>
+
+<li class="h2">
+    @Html.ActionLink("Committee", "Index", "Committees")
+</li>
+   
+</ul>
+
