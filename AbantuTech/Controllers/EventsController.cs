@@ -11,6 +11,8 @@ using Abantu_System.Models;
 using System.Net.Mail;
 using SelectPdf;
 using System.IO;
+using System.Drawing;
+using System.Threading.Tasks;
 
 namespace AbantuTech.Controllers
 {
@@ -274,7 +276,120 @@ namespace AbantuTech.Controllers
             }
             return View();
         }
-        
+        [HttpGet]
+        public ActionResult PastEvents()
+        {
+            var pastEvent = db.Events.Include(m => m.programme).Where(x => x.end_date <= DateTime.Today).ToList();
+            return View(pastEvent);
+        }
+        [HttpPost]
+        public ActionResult searchPastEvents(string Name)
+        {
+            var pastEvents = db.Events.Include(m => m.Photos)
+                .Where(m => m.Name.Equals(Name));
+            return View(pastEvents);
+        }
+        [HttpGet]
+        public async Task<ActionResult> photoGallery(string filter = null, int page = 1, int pageSize = 20)
+        {
+            
+                var records = new PagedList<EventPhoto>();
+                ViewBag.filter = filter;
+
+                records.Content = db.Photos
+                            .Where(x => filter == null || (x.Description.Contains(filter)))
+                            .OrderByDescending(x => x.PhotoId)
+                            .Skip((page - 1) * pageSize)
+                            .Take(pageSize)
+                            .ToList();
+
+                // Count
+                records.TotalRecords = await db.Photos
+                                .Where(x => filter == null || (x.Description.Contains(filter))).CountAsync();
+
+                records.CurrentPage = page;
+                records.PageSize = pageSize;
+
+                return View(records);
+ 
+        }
+        [HttpGet]
+        public ActionResult PhotoUpload()
+        {
+            var ephoto = new EventPhoto();
+            return View(ephoto);
+        }
+        [HttpPost]
+        public ActionResult PhotoUpload(EventPhoto photo, IEnumerable<HttpPostedFileBase> files)
+        {
+            if (!ModelState.IsValid)
+                return View(photo);
+            if (files.Count() == 0 || files.FirstOrDefault() == null)
+            {
+                ViewBag.Error = "Please select images";
+                return View(photo);
+            }
+            var evt = db.Events.FirstOrDefault(x => x.Event_ID == photo.eventid);
+            if (evt != null)
+            {
+                var model = new EventPhoto();
+                foreach (var file in files)
+                {
+                    if (file.ContentLength == 0) continue;
+                    model.Description = photo.Description;
+                    model.eventid = evt.Event_ID;
+                    var filename = Guid.NewGuid().ToString();
+                    var extension = Path.GetExtension(file.FileName).ToLower();
+
+                    using (var img = Image.FromStream(file.InputStream))
+                    {
+                        model.ThumbPath = String.Format("/GalleryImages/thumbs/"+ model.eventid + "{0}{1}", filename, extension);
+                        model.ImagePath = String.Format("/GalleryImages/"+ model.eventid + "/{0}{1}", filename, extension);
+
+                        SaveToFolder(img, filename, extension, new Size(100, 100), model.ThumbPath);
+
+                        SaveToFolder(img, filename, extension, new Size(600, 600), model.ImagePath);
+                    }
+                    model.CreatedOn = DateTime.Now;
+                    db.Photos.Add(model);
+                    db.SaveChanges();
+               }
+            }
+            return RedirectToAction("photoGallery");
+        }
+        public Size NewImageSize(Size imageSize, Size newSize)
+        {
+            Size finalSize;
+            double tempval;
+            if (imageSize.Height > newSize.Height || imageSize.Width > newSize.Width)
+            {
+                if (imageSize.Height > imageSize.Width)
+                    tempval = newSize.Height / (imageSize.Height * 1);
+                else
+                    tempval = newSize.Width / (imageSize.Width * 1);
+
+                finalSize = new Size((int)(tempval * imageSize.Width), (int)(tempval * imageSize.Height));
+            }
+            else
+                finalSize = imageSize;
+            return finalSize;
+        }
+        private void SaveToFolder(Image img, string fileName, string extension, Size newSize, string pathToSave)
+        {
+            Size imgSize = NewImageSize(img.Size, newSize);
+            try
+            {
+                using (Image newImg = new Bitmap(img, imgSize.Width, imgSize.Height))
+                {
+                    newImg.Save(Server.MapPath(pathToSave), img.RawFormat);
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

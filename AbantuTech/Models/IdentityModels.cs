@@ -58,6 +58,7 @@ namespace AbantuTech.Models
         public DbSet<Support> Supports { get; set; }
         public DbSet<FileDetail> FileDetails { get; set; }
         public DbSet<Forum> Fora { get; set; }
+        public DbSet<EventPhoto> Photos { get; set; }
 
         public System.Data.Entity.DbSet<AbantuTech.Models.File> Files { get; set; }
         public DbSet<ApplicationForm> Applications { get; set; }

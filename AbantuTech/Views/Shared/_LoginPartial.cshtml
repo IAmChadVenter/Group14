@@ -22,7 +22,7 @@
                             <li>@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                             <li>@Html.ActionLink("View Profile", "ViewProfile", "Profile", routeValues: null, htmlAttributes: new { title = "Profile" })</li>
                         }
-                        else if (e != null && e.isProfileActive == false)
+                        else if (e != null && e.isProfileActive == false || User.IsInRole("Admin"))
                         {
                             <li>@Html.ActionLink("Manage Account", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })</li>
                         }
